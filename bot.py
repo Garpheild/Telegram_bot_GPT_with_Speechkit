@@ -114,6 +114,8 @@ def send_stt(message):
 
 @bot.message_handler(content_types=["voice"])
 def voice_gpt_handler(message):
+    db.insert_user_to_db(message.chat.id)
+  
     curr_gpt_tokens = int(db.get_data_from_db(message.chat.id, "used_gpt_tokens")[0][0])
     curr_stt_blocks = int(db.get_data_from_db(message.chat.id, "used_stt_blocks")[0][0])
     curr_tts_tokens = int(db.get_data_from_db(message.chat.id, "used_tts_tokens")[0][0])
@@ -142,6 +144,8 @@ def voice_gpt_handler(message):
 
 @bot.message_handler(content_types=["text"])
 def text_gpt_handler(message):
+    db.insert_user_to_db(message.chat.id)
+  
     curr_tokens = int(db.get_data_from_db(message.chat.id, "used_gpt_tokens")[0][0])
 
     if curr_tokens < USER_GPT_TOKEN_LIMIT:
